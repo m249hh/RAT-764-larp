@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ENI C2 Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', monospace; background: #121212; color: #00ff41; padding: 20px; }
+        .victim { border: 1px solid #333; margin: 10px 0; padding: 15px; border-radius: 5px; background: #1e1e1e; }
+        .victim a { color: #00d4ff; text-decoration: none; font-weight: bold; }
+        .last { color: #888; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+    <h1>🖥️ Active Victims ({{ victims|length }})</h1>
+    {% for v in victims %}
+    <div class="victim">
+        <strong>{{ v.hostname }} / {{ v.username }}</strong> 
+        <a href="{{ url_for('victim_detail', victim_id=v.id) }}">[details]</a><br>
+        <span class="last">Last seen: {{ v.last_seen }}</span><br>
+        <code>ID: {{ v.id }}</code>
+    </div>
+    {% endfor %}
+</body>
+</html>

