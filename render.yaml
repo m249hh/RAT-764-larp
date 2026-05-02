@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: c2-bot
+    env: python
+    region: oregon # Or choose a region closer to you
+    plan: free # Free tier is usually sufficient for testing
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    healthCheckPath: /health # Your bot.py has a /health endpoint
+    envVars:
+      - key: BOT_TOKEN # Render will inject your bot token here
+        sync: false # Keep this synced with your Render dashboard
+      - key: GUILD_ID # Render will inject your guild ID here
+        value: "1499839425365016606" # Your Discord Server ID
